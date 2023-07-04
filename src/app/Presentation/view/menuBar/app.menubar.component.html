@@ -1,0 +1,47 @@
+
+<div class="card">
+  <p-menubar [model]="items">
+    <ng-template pTemplate="start">
+      <img src="../../../../assets/images/logo-dark.svg" height="40" class="mr-2" />
+
+    </ng-template>
+    <span style="
+                    margin-right:20px;
+                    font-weight:normal;
+                    display: block;
+               ">HashTable  #by Tasnim</span>
+
+  </p-menubar>
+</div>
+<canvas #canvas></canvas>
+<div class="card flex justify-content-center">
+  <p-dialog header="Header" [(visible)]="visible" [style]="{ width: '50vw', height: '300px' }">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">Enter Size</span>
+    </ng-template>
+    <input type="int" pInputText [(ngModel)]="size" />
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="test(); visible= false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>
+<div class="card flex justify-content-center">
+  <p-dialog header="Header" [(visible)]="visible1" [style]="{ width: '50vw', height: '300px' }">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">Enter Value</span>
+    </ng-template>
+    <input type="text" pInputText [(ngModel)]="value" />
+    <ng-template pTemplate="footer">
+      <p-button icon="pi pi-check" (click)="drawTable(); visible1= false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-dialog header="About" [(visible)]="visible2" [style]="{ width: '50vw', height: '300px' }">
+
+    <span class="text-xl font-bold">Hello here you can create a HashTable and modify it ! Enjoyyy :)</span>
+
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="chay(); visible1= false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
