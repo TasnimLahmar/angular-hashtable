@@ -6,14 +6,21 @@
 
     </ng-template>
     <span style="
-                    margin-right:20px;
-                    font-weight:normal;
+                    margin-right:40px;
+                    font-weight: bold;
+                    font-size: large;
                     display: block;
-               ">HashTable  #by Tasnim</span>
+               ">HashTable     #by Tasnim</span>
 
   </p-menubar>
 </div>
+
+
+
 <canvas #canvas></canvas>
+
+
+
 <div class="card flex justify-content-center">
   <p-dialog header="Header" [(visible)]="visible" [style]="{ width: '50vw', height: '300px' }">
     <ng-template pTemplate="header">
@@ -21,10 +28,12 @@
     </ng-template>
     <input type="int" pInputText [(ngModel)]="size" />
     <ng-template pTemplate="footer">
-      <p-button icon="pi pi-check" (click)="test(); visible= false" label="Ok" styleClass="p-button-text"></p-button>
+      <p-button icon="pi pi-check" (click)="draw(); visible= false" label="Ok" styleClass="p-button-text"></p-button>
     </ng-template>
   </p-dialog>
 </div>
+
+
 <div class="card flex justify-content-center">
   <p-dialog header="Header" [(visible)]="visible1" [style]="{ width: '50vw', height: '300px' }">
     <ng-template pTemplate="header">
@@ -36,12 +45,16 @@
     </ng-template>
   </p-dialog>
 </div>
+
+
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+
 <p-dialog header="About" [(visible)]="visible2" [style]="{ width: '50vw', height: '300px' }">
 
     <span class="text-xl font-bold">Hello here you can create a HashTable and modify it ! Enjoyyy :)</span>
 
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="chay(); visible1= false" label="Ok" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-check" (click)="aboutDialog(); visible2= false" label="Ok" styleClass="p-button-text"></p-button>
   </ng-template>
 </p-dialog>

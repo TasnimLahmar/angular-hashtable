@@ -3,7 +3,7 @@
 export class Node {
     private value:string;
     public next:Node | null;
-
+    private last=false;
     constructor(v:string,next:Node |null) {
         this.value=v;
         this.next=null;
@@ -23,12 +23,12 @@ export class Node {
     public setNext(next: Node | null): void {
         this.next = next;
     }
-    // public setLast(b: boolean): void {
-    //     this.last = b;
-    // }
-    //
-    // public isLast(): boolean {
-    //     return this.last;
-    // }
+    public setLast(b: boolean): void {
+        this.last = b;
+    }
+
+    public isLast(): boolean {
+        return this.last;
+    }
 
 }

@@ -16,7 +16,7 @@ export class Service {
     public add(v:string):boolean{
         const index=this.hash(v);
         const n=new Node(v,null);
-      //  n.setLast(true);
+        n.setLast(true);
         let list = this.table.getNodes()[index];
         let  nc=list;
         if (!this.find(v)){

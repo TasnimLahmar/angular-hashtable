@@ -24,7 +24,7 @@ export class MenubarTemplateDemo implements OnInit {
   visible: boolean = false;
   visible1:boolean=false;
   visible2:boolean=false;
-
+  index=0;
   size? : number ;
   value:string|null=null;
   ngOnInit() {
@@ -71,7 +71,7 @@ export class MenubarTemplateDemo implements OnInit {
           {
             label: 'About',
             icon: 'pi pi-fw pi-align-left',
-            command: () => this.visible2=true
+            command: () => this.aboutDialog()
 
           },
         ]
@@ -82,10 +82,10 @@ export class MenubarTemplateDemo implements OnInit {
       }
     ];
   }
-chay(){
-
+aboutDialog(){
+    this.visible2=true;
 }
-    test() {
+    draw() {
 
       this.service.getTable().getNodes().length=this.size!;
       this.model=new Table(this.size!);
@@ -97,10 +97,10 @@ chay(){
 
 
   drawTable() {
+
     const canvas = this.canvas.nativeElement;
     const context = canvas.getContext('2d');
     context!.clearRect(0, 0, canvas.width, canvas.height);
-
     const cellSize = 80;
     const tableSize = this.size;
 
@@ -110,15 +110,19 @@ chay(){
     const startX = ((canvas.width- cellSize) / 2);
     const startY = 40;
      let q=startY+50;
-    canvas.width = 2000;
+    canvas.width = 1400;
     canvas.height =400 + tableSize! * cellSize;
     console.log(this.value);
     if(this.value!=null && this.service.add(this.value)==true){
       this.service.add(this.value);
+
       this.controller.setService(this.service);
-      let index=this.service.hash(this.value);
-      console.log(this.service.getTable().getNodes()[index]+ "at index"+index);
+       this.index=this.service.hash(this.value!);
+      console.log(this.service.getTable().getNodes()[this.index]+ "at index"+this.index);
+
       }
+
+
 
     for (let i = 0; i < tableSize!; i++) {
       const y = startY+ i * cellSize;
@@ -132,18 +136,44 @@ chay(){
       q+=cellSize;
       let n:Node | null=nodes[i];
       let r=x;
+
+      if(i<=this.index && nodes[this.index]!=null){
+        setTimeout(()=>{
+          context!.fillStyle = 'cyan';
+          context!.fillRect(x, y, cellSize, cellSize);
+          context!.strokeStyle='black';
+          context!.lineWidth=2
+          context!.strokeRect(x, y, cellSize, cellSize);
+
+        },1000*(i+1));
+      }
+
+
       if(n===null){
-        this.drawMass(i,cellSize,context!,r,cellSize/2);
+        this.drawMass(i,0,cellSize,context!,r,cellSize/2);
       }
       while(n!=null){
+        if(n.isLast()==false){
+          this.drawNode(i,0,n,cellSize,context!,r,startY);
+          r+=70+x;
+          let k=this.controller.getService().hash(n.getValue());
+          if(n.getNext()==null){
+            this.drawMass(k,0,cellSize,context!,r,cellSize/2);
+          }
+          n=n.getNext();
 
-        this.drawNode(i,n,cellSize,context!,r,startY);
-        r+=70+x;
-        let k=this.controller.getService().hash(n.getValue());
-        if(n.getNext()==null){
-          this.drawMass(k,cellSize,context!,r,cellSize/2);
+
+        }else{
+          this.drawNode(i,1400*(i+1),n,cellSize,context!,r,startY);
+          r+=70+x;
+          let k=this.controller.getService().hash(n.getValue());
+          if(n.getNext()==null){
+            this.drawMass(k,2000*(k+1),cellSize,context!,r,cellSize/2);
+          }
+          n=n.getNext();
         }
-        n=n.getNext();
+
+
       }
 
 
@@ -153,15 +183,11 @@ chay(){
 
 
     this.value=null;
-
-
-
-
-
+    this.index=0;
 
   }
 
-  drawNode(index:number,node:Node,caseSize:number,context:CanvasRenderingContext2D,startX:number,startY:number){
+  drawNode(index:number,duration:number,node:Node,caseSize:number,context:CanvasRenderingContext2D,startX:number,startY:number){
 
     setTimeout(()=>{
       let lineY=startY+caseSize*index+43;
@@ -212,29 +238,33 @@ chay(){
         }
       });
 
-    },2000);
+    },duration);
+    node.setLast(false);
+
 
 
   }
 
-  drawMass(i:number,caseSize:number,context:CanvasRenderingContext2D,startX:number,startY:number){
+  drawMass(i:number,duration:number,caseSize:number,context:CanvasRenderingContext2D,startX:number,startY:number){
+    setTimeout(()=>{
+      let lineY=startY+50+caseSize*i;
+      context!.beginPath();
+      context!.moveTo(startX+caseSize,lineY);
+      context!.lineTo(startX+caseSize+50,lineY);
+      //msalha
+      context!.moveTo(startX+caseSize+50,lineY-20);
+      context!.lineTo(startX+caseSize+50,lineY+20);
+      //mchot
+      context!.moveTo(startX+caseSize+50,lineY+10);
+      context!.lineTo(startX+caseSize+60,lineY);
+      context!.moveTo(startX+caseSize+50,lineY-5);
+      context!.lineTo(startX+caseSize+60,lineY-15);
+      context!.lineWidth = 2;
+      context!.strokeStyle = 'black';
+      context!.stroke();
+      context!.closePath();
+    },duration)
 
-    let lineY=startY+50+caseSize*i;
-    context!.beginPath();
-    context!.moveTo(startX+caseSize,lineY);
-    context!.lineTo(startX+caseSize+50,lineY);
-    //msalha
-    context!.moveTo(startX+caseSize+50,lineY-20);
-    context!.lineTo(startX+caseSize+50,lineY+20);
-    //mchot
-    context!.moveTo(startX+caseSize+50,lineY+10);
-    context!.lineTo(startX+caseSize+60,lineY);
-    context!.moveTo(startX+caseSize+50,lineY-5);
-    context!.lineTo(startX+caseSize+60,lineY-15);
-    context!.lineWidth = 2;
-    context!.strokeStyle = 'black';
-    context!.stroke();
-    context!.closePath();
 
 
   }
